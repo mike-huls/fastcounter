@@ -1,49 +1,11 @@
 #include <string.h>
 #include <Python.h>
 
-
-static PyObject *method_fputs(PyObject *self, PyObject *args) {
-  /**/
-  // str is the string we want to write to the file stream
-  // filename is the name of the file to write to
-  int *n_frm, *n_til = NULL;
-  int bytes_copied = -1;
-
-  // Parse arguments
-  // args = type of PyObject
-  // ss is the format specifier of the data type to the argumetns to parse (c-api arg on docs.python)
-  // $str and $filename are pointers to local variables to which the parsed values will be assigned
-  if (!PyArg_ParseTuple(args, "ii", &n_frm, &n_til)) {
-    return NULL;
-  }
-
-  // Raise a custom python exception from C to python
-  // char s[]="error";
-  // if (strcmp(str,s) == 0) {
-  //   PyErr_SetString(PyExc_ValueError, "This exception is thrown in the C file");
-  //   return NULL;
-  // }
-
-  // Check inputs
-  if (n_frm <= 1) {
-    PyErr_SetString(PyExc_ValueError, "Please provide input n_frm larger than 1");
-    return NULL;
-  }
-  if (n_til <= 1) {
-    PyErr_SetString(PyExc_ValueError, "Please provide input n_til larger than 1");
-    return NULL;
-  }
-  if (n_frm >= n_til) {
-    PyErr_SetString(PyExc_ValueError, "f_rm cannot be equal to or larger than n_til");
-    return NULL;
-  }
-
-
+int c_prime_counter(int frm, int til) {
+   
+   
   // int flag = 0;
   int primecount = 0;
-  int frm = n_frm;
-  int til = n_til;
-
   for (int num = frm; num <= til; num++) {
     int flag = 0;
 
@@ -69,22 +31,45 @@ static PyObject *method_fputs(PyObject *self, PyObject *args) {
   }
 
   printf("==> found %d primes \n", primecount);
+  return primecount;
+}
+
+static PyObject *method_fputs(PyObject *self, PyObject *args) {
+  /**/
+  // str is the string we want to write to the file stream
+  // filename is the name of the file to write to
+  int *n_frm, *n_til = NULL;
+  int bytes_copied = -1;
+
+  // Parse arguments
+  // args = type of PyObject
+  // ss is the format specifier of the data type to the argumetns to parse (c-api arg on docs.python)
+  // $str and $filename are pointers to local variables to which the parsed values will be assigned
+  if (!PyArg_ParseTuple(args, "ii", &n_frm, &n_til)) {
+    return NULL;
+  }
 
 
 
+  // Check inputs
+  if (n_frm <= 1) {
+    PyErr_SetString(PyExc_ValueError, "Please provide input n_frm larger than 1");
+    return NULL;
+  }
+  if (n_til <= 1) {
+    PyErr_SetString(PyExc_ValueError, "Please provide input n_til larger than 1");
+    return NULL;
+  }
+  if (n_frm >= n_til) {
+    PyErr_SetString(PyExc_ValueError, "f_rm cannot be equal to or larger than n_til");
+    return NULL;
+  }
 
-  // if (*str == 'error') {
-  //   PyErr_SetString(PyExc_ValueError, "Dit is een exception");
-  //   return NULL;
-  // }
+  // Call function
+  int found_primes = c_prime_counter(n_frm, n_til);
 
-  // // Write the file, store the number of bytes copied (default negatieve)
-  // FILE *fp = fopen(filename, "w");
-  // bytes_copied = fputs(str, fp);
-  // fclose(fp);
 
-  // PyLong_FromLong() retuens a PyLongObject => int object in python.
-  return PyLong_FromLong(primecount);
+  return PyLong_FromLong(found_primes);
 }
 
 // Holds info about the methods in your pytho C extension module
@@ -122,13 +107,3 @@ static struct PyModuleDef fputsmodule = {
 PyMODINIT_FUNC PyInit_fputs(void) {
   return PyModule_Create(&fputsmodule);
 };
-
-int main() {
-  return 1;
-}
-
-
-// python calls PyInit_fputs
-// -> calls PyModule_Create
-// -> Lists FputsMethods
-// -> links "fputs" to the C function
