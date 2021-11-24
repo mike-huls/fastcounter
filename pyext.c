@@ -9,28 +9,20 @@ int c_prime_counter(int frm, int til) {
   for (int num = frm; num <= til; num++) {
     int flag = 0;
 
+    if (num > 1) {
 
-    for (int candidate = 2; candidate < num; candidate++) {
-      if ((num % candidate) == 0) {
-
-        flag = 1;
-        break;
+      for (int candidate = 2; candidate < num; candidate++) {
+        if ((num % candidate) == 0) {
+          flag = 1;
+          break;
+        }
+      }
+      
+      if (flag == 0) {
+        primecount++;
       }
     }
-
-    if (flag == 0) {
-      primecount++;
-    }
-
-    // if (t % num == 0) {
-    //   // flag = 1;
-    //   // break;
-    //   continue;
-    // }
-
   }
-
-  // printf("==> found %d primes \n", primecount);
   return primecount;
 }
 
@@ -50,25 +42,6 @@ static PyObject *py_primecounter(PyObject *self, PyObject *args) {
   if (!PyArg_ParseTuple(args, "ii", &n_frm, &n_til)) {
     return NULL;
   }
-
-
-
-  // Check inputs
-  if (n_frm <= 1) {
-    PyErr_SetString(PyExc_ValueError, "Please provide input n_frm larger than 1");
-    return NULL;
-  }
-  if (n_til <= 1) {
-    PyErr_SetString(PyExc_ValueError, "Please provide input n_til larger than 1");
-    return NULL;
-  }
-  if (n_frm >= n_til) {
-    PyErr_SetString(PyExc_ValueError, "f_rm cannot be equal to or larger than n_til");
-    return NULL;
-  }
-
-
-
 
 
 
