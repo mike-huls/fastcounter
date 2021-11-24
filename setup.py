@@ -3,12 +3,12 @@ from distutils.core import setup, Extension
 
 def main():
   setup(
-    name="fputs",
+    name="Fastcount",
     version="1.0.0",
-    description="Python interface for the fputs C lib func",
+    description="Fastcount module in python",
     author="Mike",
     author_email="mikehuls42@github.com",
-    ext_modules=[Extension("fputs", ["pyext.c"])]
+    ext_modules=[Extension("Fastcount", ["pyext.c"])]
   )
 
 if (__name__ == "__main__"):

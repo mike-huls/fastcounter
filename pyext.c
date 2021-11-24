@@ -30,16 +30,18 @@ int c_prime_counter(int frm, int til) {
 
   }
 
-  printf("==> found %d primes \n", primecount);
+  // printf("==> found %d primes \n", primecount);
   return primecount;
 }
 
-static PyObject *method_fputs(PyObject *self, PyObject *args) {
+static PyObject *py_primecounter(PyObject *self, PyObject *args) {
+
+
   /**/
   // str is the string we want to write to the file stream
   // filename is the name of the file to write to
   int *n_frm, *n_til = NULL;
-  int bytes_copied = -1;
+
 
   // Parse arguments
   // args = type of PyObject
@@ -65,6 +67,9 @@ static PyObject *method_fputs(PyObject *self, PyObject *args) {
     return NULL;
   }
 
+
+
+
   // Call function
   int found_primes = c_prime_counter(n_frm, n_til);
 
@@ -75,27 +80,23 @@ static PyObject *method_fputs(PyObject *self, PyObject *args) {
 // Holds info about the methods in your pytho C extension module
 // Makes sure you can call the methods defined in your module. 
 // Each struct of 4 members represents a single method in your module
-static PyMethodDef FputsMethods[] = {
-  // fputs - name user would write to invoke this function
-  // method_fputs - name of the C function to invoke
-  // METH_VARARGS - flag that tells the interpreter that the func will accept two arguments of type PyObject*:
-  //    - self is the modlue object
-  //    - args is a tuple containging the actual arguments to your function, get unpacked py PyArg_ParseTuple()
-  // DOCSTRING
-  {"fputs", method_fputs, METH_VARARGS, "Python interface for fputs C lib func"},
+static PyMethodDef CountingMethods[] = {
+  // SPECIFY THE FUNCTION NAME HERE
+  {"primecounter", py_primecounter, METH_VARARGS, "Function for counting primes in a range in c"}, 
   {NULL, NULL, 0, NULL}
 };
 
 
 // Holds information about your c extension module itself.Single structure that defines your module
-static struct PyModuleDef fputsmodule = {
+static struct PyModuleDef fastcountmodule = {
   PyModuleDef_HEAD_INIT,
-  "fputs",                              // name of the python c extension module
-  "Py interface for fputs C lib func",  // module docstring
+  // SPECIFY THE MODULE NAME HERE
+  "Fastcount",                              // name of the python c extension module
+  "C library for counting fast",  // module docstring
   -1,                                   // amount of memory needed. 
                                         //    neg = no support for sub-interpreters, 
                                         //    non-negative = supports re-initialization of this module, 
-  FputsMethods                          // referende to the methods table. The array of PyMethodDef structs as defined earlier
+  CountingMethods                          // referende to the methods table. The array of PyMethodDef structs as defined earlier
 };
 
 
@@ -104,6 +105,8 @@ static struct PyModuleDef fputsmodule = {
 // 2. Declares any special linkages
 // 3. Declares the function as extern "C". In case your using C++ it tells the C++ compiler not to do name-mangling on the symbols
 // Returns a new module object of type PyObject. As an argument pass the address of the method structure that you've already defined; fputsmodule
-PyMODINIT_FUNC PyInit_fputs(void) {
-  return PyModule_Create(&fputsmodule);
+
+// PyInit_[THISPART] has to match your momdule name (case sensitive)
+PyMODINIT_FUNC PyInit_Fastcount(void) {
+  return PyModule_Create(&fastcountmodule);
 };

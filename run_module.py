@@ -1,27 +1,33 @@
-import fputs
+import Fastcount
+from Fastcount import primecounter
 
-print(fputs) 
+print(Fastcount) 
 
-print(fputs.__name__) 
+print(Fastcount.__name__) 
+
+
+
+
+
 
 try:
-  fputs.fputs(1, 12)
+  Fastcount.primecounter(1, 12)
 except Exception as e:
     print(f'1 failed as expected: {e}')
 
 try:
-  fputs.fputs(0, 1)
+  Fastcount.primecounter(0, 1)
 except Exception as e:
     print(f'2 failed as expected: {e}')
 
 try:
-  fputs.fputs(3, 1)
+  Fastcount.primecounter(3, 1)
 except Exception as e:
     print(f'3 failed as expected: {e}')
 
 
 try:
-  res = fputs.fputs(3, 12)
+  res = Fastcount.primecounter(3, 12)
   print('successs?', res)
 except Exception as e:
     print(f'4 failed unexpected: {e}')
