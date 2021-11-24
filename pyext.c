@@ -10,8 +10,9 @@ int c_prime_counter(int frm, int til) {
     int flag = 0;
 
 
-    for (int candidate = frm; candidate <= til / 2; candidate++) {
+    for (int candidate = 2; candidate < num; candidate++) {
       if ((num % candidate) == 0) {
+
         flag = 1;
         break;
       }
@@ -19,7 +20,6 @@ int c_prime_counter(int frm, int til) {
 
     if (flag == 0) {
       primecount++;
-      // printf("\tthis canditate is a prime: %d.\n", num);
     }
 
     // if (t % num == 0) {
@@ -66,6 +66,8 @@ static PyObject *py_primecounter(PyObject *self, PyObject *args) {
     PyErr_SetString(PyExc_ValueError, "f_rm cannot be equal to or larger than n_til");
     return NULL;
   }
+
+
 
 
 

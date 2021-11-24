@@ -32,24 +32,3 @@ try:
 except Exception as e:
     print(f'4 failed unexpected: {e}')
 
-quit()
-
-
-print("reading..")
-with open("testbestand.txt", "r") as f:
-  print(f.read())
-print("read!")
-
-
-print("now the exception:")
-try:
-  fputs.fputs("error", "testbestand.txt")
-except Exception as e:
-  print("caught the exception. Check it out below:")
-  print(f"\tC-exception: {e}")
-
-
-print("reading..")
-with open("testbestand.txt", "r") as f:
-  print(f.read())
-print("read!")
